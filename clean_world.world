@@ -1,0 +1,219 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="clean_world">
+  <!-- TurtleBot3 Robot -->
+<include>
+  <uri>model://turtlebot3_waffle_pi</uri>
+  <name>tb3</name>
+  <pose>0 0 0.01 0 0 0</pose>
+</include>
+
+    <!-- ═══════════════════════════════════════════
+         PHYSICS
+    ═══════════════════════════════════════════ -->
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+
+    <!-- ═══════════════════════════════════════════
+         SCENE
+    ═══════════════════════════════════════════ -->
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.53 0.81 0.92 1</background>  <!-- sky blue -->
+      <shadows>true</shadows>
+      <fog>
+        <color>0.9 0.9 0.9 1</color>
+        <type>linear</type>
+        <start>10</start>
+        <end>40</end>
+        <density>0.02</density>
+      </fog>
+    </scene>
+
+    <!-- ═══════════════════════════════════════════
+         LIGHTING
+    ═══════════════════════════════════════════ -->
+
+    <!-- Main sun -->
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 15 0 0 0</pose>
+      <diffuse>1.0 0.95 0.8 1</diffuse>
+      <specular>0.3 0.3 0.3 1</specular>
+      <direction>-0.4 0.2 -0.9</direction>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+
+    <!-- Soft fill light -->
+    <light name="ambient_fill" type="directional">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.3 0.35 0.4 1</diffuse>
+      <specular>0.0 0.0 0.0 1</specular>
+      <direction>0.4 -0.2 -0.8</direction>
+    </light>
+
+    <!-- ═══════════════════════════════════════════
+         GROUND & ENVIRONMENT
+    ═══════════════════════════════════════════ -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- ═══════════════════════════════════════════
+         BOUNDARY WALLS  (8 × 8 m arena)
+    ═══════════════════════════════════════════ -->
+
+    <model name="wall_north">
+      <static>true</static>
+      <pose>0 4 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>8.2 0.2 1</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>8.2 0.2 1</size></box></geometry>
+          <material><ambient>0.7 0.7 0.7 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_south">
+      <static>true</static>
+      <pose>0 -4 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>8.2 0.2 1</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>8.2 0.2 1</size></box></geometry>
+          <material><ambient>0.7 0.7 0.7 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_east">
+      <static>true</static>
+      <pose>4 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.2 8.2 1</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.2 8.2 1</size></box></geometry>
+          <material><ambient>0.7 0.7 0.7 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_west">
+      <static>true</static>
+      <pose>-4 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.2 8.2 1</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.2 8.2 1</size></box></geometry>
+          <material><ambient>0.7 0.7 0.7 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ═══════════════════════════════════════════
+         YOLO TARGET OBJECTS
+    ═══════════════════════════════════════════ -->
+
+    <include>
+      <uri>model://coke_can</uri>
+      <name>coke_can_1</name>
+      <pose>1.0 0.0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://coke_can</uri>
+      <name>coke_can_2</name>
+      <pose>-1.5 2.0 0 0 0 1.0</pose>
+    </include>
+
+    <include>
+      <uri>model://banana</uri>
+      <name>banana_1</name>
+      <pose>2.0 1.0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://banana</uri>
+      <name>banana_2</name>
+      <pose>-2.0 -1.5 0 0 0 0.5</pose>
+    </include>
+
+    <!-- ═══════════════════════════════════════════
+         STATIC OBSTACLES  (navigation challenge)
+    ═══════════════════════════════════════════ -->
+
+    <!-- Box pillar A -->
+    <model name="pillar_a">
+      <static>true</static>
+      <pose>2.5 -2.0 0.3 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.6</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.4 0.4 0.6</size></box></geometry>
+          <material><ambient>0.6 0.3 0.1 1</ambient><diffuse>0.7 0.4 0.15 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Box pillar B -->
+    <model name="pillar_b">
+      <static>true</static>
+      <pose>-2.5 2.0 0.3 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.6</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.4 0.4 0.6</size></box></geometry>
+          <material><ambient>0.6 0.3 0.1 1</ambient><diffuse>0.7 0.4 0.15 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Cylinder post -->
+    <model name="post_1">
+      <static>true</static>
+      <pose>-1.0 -2.5 0.4 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>0.8</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.15</radius><length>0.8</length></cylinder></geometry>
+          <material><ambient>0.2 0.2 0.7 1</ambient><diffuse>0.3 0.3 0.9 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Low shelf / ramp block -->
+    <model name="shelf">
+      <static>true</static>
+      <pose>3.0 1.5 0.1 0 0 0.4</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>1.2 0.3 0.2</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>1.2 0.3 0.2</size></box></geometry>
+          <material><ambient>0.4 0.4 0.4 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ═══════════════════════════════════════════
+         GUI CAMERA
+    ═══════════════════════════════════════════ -->
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>6 -6 6 0 0.6 2.4</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+
+  </world>
+</sdf>
